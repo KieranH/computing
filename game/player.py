@@ -13,13 +13,13 @@ class Location:
 						6: "",
 						7: "DESCRIPTION"})
 		self.rooms = dict({"items": {
-							1:[True],
-							2:[True],
-							3:[True],
-							4:[True],
-							5:[True],
-							6:[True],
-							7:[True]}})
+							1:[True, False],
+							2:[False, False],
+							3:[False, False],
+							4:[False, False],
+							5:[False, False],
+							6:[False, False],
+							7:[False, True]}})
 	#Keeps track of the players location
 	def move(self, direction):
 		#Input Validation
@@ -61,6 +61,9 @@ class Location:
 			if self.rooms["items"][room][0] == True:
 				#there is a key in the room
 				return True,"key"
+            if self.rooms["items"][room][1] == True:
+                #there is a door in the room
+                return False,"door"
 						
 class Action:
 	def fight(self, foe):
@@ -69,7 +72,12 @@ class Action:
 		has_item, item = location.has_item(room)
 		if has_item:
 			print "You have found a", item
-			inventory.add_item(item)
+			if item != "door":
+                inventory.add_item(item)
+    def open_door(self, location, room, inventory):
+        has_item, item = location.has_item(room)
+        if item == door:
+            print "unlock?"
 class Inventory:
 	#Keep track of the players inventory
 	def __init__(self):
